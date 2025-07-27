@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Happy Birthday Akka</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #b80000;
+      --text: #111;
+      --bg: #fff;
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow: hidden;
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'fantasy', 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    }
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+    .container {
+      max-width: 850px;
+      padding: 40px;
+      z-index: 1;
+    }
+    .step {
+      display: none;
+      font-size: 2rem;
+      font-weight: 400;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 1.2s ease, transform 1s ease;
+      line-height: 1.45;
+    }
+    .step.active {
+      display: block;
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .final-step {
+      font-family: 'cursive', fantasy;
+      font-size: 5rem;
+      font-weight: 900;
+      color: #880404;
+      text-shadow: 0 0 4px var(--primary);
+      animation: pop 1s forwards, redGlow 1.4s ease-in-out infinite;
+    }
+    .final-step * { font-weight: 400; }
+
+    @keyframes pop {
+      0% { transform: scale(.8); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    @keyframes redGlow {
+      0%, 100% { text-shadow: 0 0 2px var(--primary); }
+      50% { text-shadow: 0 0 12px var(--primary); }
+    }
+
+    #effectsCanvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 9990;
+    }
+  </style>
+</head>
+<body>
+  <script>
+    const password = "SayYourName";
+    const entered = prompt("Welcome Akka, please enter your first memory with me to continue:");
+    window.addEventListener('DOMContentLoaded', () => {
+      if (entered !== password) {
+        document.body.innerHTML = `
+          <div style="display:flex;justify-content:center;align-items:center;height:100vh;text-align:center;">
+            <div style="font-family:sans-serif;font-size:1.8rem;">
+              🚫 Access Denied<br><br><span style="font-size:1rem;color:#888;">Incorrect password</span>
+            </div>
+          </div>
+        `;
+      } else {
+        document.getElementById('protected').style.display = 'block';
+      }
+    });
+  </script>
+
+  <div id="protected" style="display:none;">
+    <canvas id="effectsCanvas"></canvas>
+    <div class="container">
+      <div id="step1" class="step active">It’s <strong>July 28th 2025</strong><br>If not, time zones don’t matter.<br>It’s July 28th somewhere —and that’s more than enough to celebrate her 🎉💫</div>
+      <div id="step2" class="step">You don’t act like most people today<br>You have the heart of someone from long ago, like my <strong>grandma</strong><br>And I’m really proud of that</div>
+      <div id="step3" class="step">You teach without preaching. You care so deeply, yet so quietly</div>
+      <div id="step4" class="step">You carry a stillness that makes everything around you feel steady 🧘🏽‍♀️</div>
+      <div id="step5" class="step">You listen like someone who sees beyond words<br>And you speak with the kind of clarity that belongs on a <strong>TED stage</strong> 😂🎤🌟</div>
+      <div id="step6" class="step">And somehow, you still make space for the simplest joys —<br>your daily dose of sweets 🍪🍫 and coffee ☕️, sitting with your thoughts, choosing peace even when you’re right</div>
+      <div id="step7" class="step">I’ve never been to the <strong>Amazon</strong> 🌳🌿🌿, but every time I talk to you,<br>it feels like walking through it — <strong>calm, refreshing, and full of life, just like your presence</strong></div>
+      <div id="step8" class="step">And honestly? I miss being around you 🥺<br>I really want to spend time with you — not just on special days, but the quiet, normal ones too</div>
+      <div id="step9" class="step">So many times I tried to say this, but the words never came out 🫢<br>Your brothers are lucky. I’ve never had a sister like you, and I wish I did 🥹</div>
+      <div id="step10" class="step"><strong>If not, I just hope I have a daughter like you one day 👣</strong></div>
+      <div id="step11" class="step">You’re the kind of sister anyone would be <strong>lucky</strong> to have</div>
+      <div id="step12" class="step"><strong>You’re worth every second</strong></div>
+      <div id="step13" class="step final-step">Happy Birthday, Akka 🤍</div>
+    </div>
+  </div>
+
+  <script>
+    let current = 1;
+    const total = 13;
+    function showStep(n) {
+      for (let i = 1; i <= total; i++) {
+        const el = document.getElementById('step' + i);
+        if (el) el.classList.remove('active');
+      }
+      const next = document.getElementById('step' + n);
+      if (next) {
+        setTimeout(() => next.classList.add('active'), 120);
+        if (n === 13) generateConfetti(160 * 20); // 20x confetti on last page
+        else generateConfetti(160); // Normal confetti on other pages
+      }
+    }
+
+    document.addEventListener('keydown', e => {
+      if ((e.key === 'Enter' || e.key === 'ArrowRight') && current < total) {
+        current++;
+        showStep(current);
+      }
+      if (e.key === 'ArrowLeft' && current > 1) {
+        current--;
+        showStep(current);
+      }
+    });
+  </script>
+
+  <script>
+    let confetti = [];
+    const confettiColors = ['#ff4040', '#ffd740', '#40c4ff', '#76ff03', '#ff6d00'];
+    let canvas, ctx, w, h;
+
+    function generateConfetti(count) {
+      confetti = [];
+      for (let i = 0; i < count; i++) {
+        confetti.push(new Confetto());
+      }
+    }
+
+    class Confetto {
+      constructor() { this.reset(true); }
+      reset(startAnywhere = false) {
+        this.x = Math.random() * w;
+        this.y = startAnywhere ? Math.random() * h : -20;
+        this.w = 8 + Math.random() * 6;
+        this.h = 4 + Math.random() * 4;
+        this.vy = 2 + Math.random() * 3;
+        this.vx = Math.random() * 2 - 1;
+        this.color = confettiColors[Math.floor(Math.random() * confettiColors.length)];
+        this.angle = Math.random() * Math.PI;
+        this.spin = (Math.random() > 0.5 ? 1 : -1) * (0.02 + Math.random() * 0.04);
+      }
+      update() {
+        this.x += this.vx;
+        this.y += this.vy;
+        this.angle += this.spin;
+        if (this.y > h + 10) this.reset();
+      }
+      draw() {
+        ctx.save();
+        ctx.translate(this.x, this.y);
+        ctx.rotate(this.angle);
+        ctx.fillStyle = this.color;
+        ctx.fillRect(-this.w / 2, -this.h / 2, this.w, this.h);
+        ctx.restore();
+      }
+    }
+
+    (() => {
+      canvas = document.getElementById('effectsCanvas');
+      ctx = canvas.getContext('2d');
+      function resize() {
+        w = canvas.width = window.innerWidth;
+        h = canvas.height = window.innerHeight;
+      }
+      resize();
+      window.addEventListener('resize', resize);
+      generateConfetti(160); // Initial confetti
+      function animate() {
+        ctx.clearRect(0, 0, w, h);
+        confetti.forEach(c => {
+          c.update();
+          c.draw();
+        });
+        requestAnimationFrame(animate);
+      }
+      animate();
+    })();
+  </script>
+</body>
+</html>
